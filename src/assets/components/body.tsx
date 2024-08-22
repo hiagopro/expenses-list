@@ -4,6 +4,8 @@ import React from "react";
 import styled from "styled-components";
 import { Header } from "./header";
 import { XCircle } from "phosphor-react";
+import axios from "axios";
+
 const TrStyled = styled.tr``;
 const TableStyled = styled.table`
   width: 100%;
@@ -31,13 +33,13 @@ const DivScroll = styled.div`
   &::-webkit-scrollbar {
     width: 0.8rem;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: ${(props) => props.theme.colors.secondary};
     width: 80%;
     border-radius: 20px;
   }
 `;
+
 export function Body({
   expenses,
   setExpenses,
@@ -48,21 +50,27 @@ export function Body({
   filteredMonth,
   selectedYear,
 }) {
-  const handleDeleteExpense = (index) => {
-    const updatedExpenses = [...expenses];
-    updatedExpenses.splice(index, 1);
-    setExpenses(updatedExpenses);
+  const handleDeleteExpense = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      setExpenses(expenses.filter((expense) => expense.id !== id));
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+    }
   };
+
   const handleDeleteExpenseFixed = (index) => {
     const updatedExpensesFixed = [...expensesFixed];
     updatedExpensesFixed.splice(index, 1);
     setExpensesFixed(updatedExpensesFixed);
   };
+
   const handleDeleteInstallmentExpense = (index) => {
     const updatedInstallmentExpenses = [...installmentExpenses];
     updatedInstallmentExpenses.splice(index, 1);
     setInstallmentExpenses(updatedInstallmentExpenses);
   };
+
   return (
     <DivScroll>
       <TableStyled>
@@ -70,25 +78,25 @@ export function Body({
           <TrStyled>
             <th>Expense</th>
             <th>Categories</th>
-            <th>Data</th>
+            <th>Date</th>
+            <th>Actions</th>
           </TrStyled>
         </thead>
-
-        {expenses.map((expenses, index) => {
-          return (
-            <thead>
-              <TrStyled key={index}>
-                <ThExpense>{expenses.expense}</ThExpense>
-                <ThExpense>{expenses.categories}</ThExpense>
-                <ThExpense>{expenses.data}</ThExpense>
+        <tbody>
+          {expenses.map((expense, index) => (
+            <TrStyled key={index}>
+              <ThExpense>{expense.expense}</ThExpense>
+              <ThExpense>{expense.categories}</ThExpense>
+              <ThExpense>{expense.date}</ThExpense>
+              <ThExpense>
                 <XCircleStyled
                   size={28}
-                  onClick={() => handleDeleteExpense(index)}
+                  onClick={() => handleDeleteExpense(expense.id)}
                 />
-              </TrStyled>
-            </thead>
-          );
-        })}
+              </ThExpense>
+            </TrStyled>
+          ))}
+        </tbody>
       </TableStyled>
       <DivTypeExpense>
         <h1>Fixed Expenses</h1>
@@ -98,24 +106,26 @@ export function Body({
           <TrStyled>
             <th>Expense</th>
             <th>Categories</th>
-            <th>Data</th>
+            <th>Date</th>
+            <th>Actions</th>
           </TrStyled>
         </thead>
-        {expensesFixed.map((expensesFixed, index) => {
-          return (
-            <thead>
+        <tbody>
+          {Array.isArray(expensesFixed) &&
+            expensesFixed.map((expenseFixed, index) => (
               <TrStyled key={index}>
-                <ThExpense>{expensesFixed.expenseFixed}</ThExpense>
-                <ThExpense>{expensesFixed.categoriesFixed}</ThExpense>
-                <ThExpense>{expensesFixed.dataFixed}</ThExpense>
-                <XCircleStyled
-                  size={28}
-                  onClick={() => handleDeleteExpenseFixed(index)}
-                />
+                <ThExpense>{expenseFixed.expenseFixed}</ThExpense>
+                <ThExpense>{expenseFixed.categoriesFixed}</ThExpense>
+                <ThExpense>{expenseFixed.dateFixed}</ThExpense>
+                <ThExpense>
+                  <XCircleStyled
+                    size={28}
+                    onClick={() => handleDeleteExpenseFixed(index)}
+                  />
+                </ThExpense>
               </TrStyled>
-            </thead>
-          );
-        })}
+            ))}
+        </tbody>
       </TableStyled>
       <DivTypeExpense>
         <h1>Installment Expenses</h1>
@@ -125,42 +135,45 @@ export function Body({
           <TrStyled>
             <th>Expense</th>
             <th>Categories</th>
-            <th> Qt Parcelas</th>
+            <th>Installments</th>
+            <th>Actions</th>
           </TrStyled>
         </thead>
-        {installmentExpenses.map((installmentExpense, index) => {
-          return installmentExpense.installmentData.map((installment, i) => {
-            const selectedMonth = filteredMonth;
-            const installmentMonth = installment.month;
-            const installmentYear = installment.year;
-            const selectYear = selectedYear;
-
-            if (
-              installmentMonth === selectedMonth &&
-              installmentYear === selectYear
-            ) {
-              /// FAÇA ESSA POHA FUNCIONAR
-
-              return (
-                <thead>
-                  <TrStyled key={`${index}-${i}`}>
-                    <ThExpense>{installment.amount}</ThExpense>
-                    <ThExpense>
-                      {installmentExpense.installmentCategories}
-                    </ThExpense>
-                    <ThExpense>{installmentExpense.installmentNum}</ThExpense>
-                    <XCircleStyled
-                      size={28}
-                      onClick={() => handleDeleteInstallmentExpense(index)}
-                    />
-                  </TrStyled>
-                </thead>
-              );
-            } else {
-              return null;
-            }
-          });
-        })}
+        <tbody>
+          { installmentExpenses.map((installmentExpense, index) =>{
+              
+              
+              
+                const selectedMonth = filteredMonth;
+                const installmentMonth = installmentExpense.installmentData.month;
+                const installmentYear = installmentExpense.installmentData.year;
+                const selectYear = selectedYear;
+            console.log(installmentExpense.installmentData.year)
+                if (
+                  installmentMonth === selectedMonth &&
+                  installmentYear === selectYear
+                ) {
+                  return (
+                    <TrStyled key={`${index}-${installmentExpense.id}`}>
+                      <ThExpense>{installmentExpense.installmentData.amount}</ThExpense>
+                      <ThExpense>
+                        {installmentExpense.installmentCategories}
+                      </ThExpense>
+                      <ThExpense>{installmentExpense.installmentNum}</ThExpense>
+                      <ThExpense>
+                        <XCircleStyled
+                          size={28}
+                          onClick={() => handleDeleteInstallmentExpense(index)}
+                        />
+                      </ThExpense>
+                    </TrStyled>
+                  );
+                } else {
+                  return null;
+                }
+              
+          })}
+        </tbody>
       </TableStyled>
     </DivScroll>
   );

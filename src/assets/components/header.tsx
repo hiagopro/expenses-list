@@ -1,9 +1,8 @@
-import { ButtonStyled } from "./styled-components/button";
-import { DefaulTheme } from "../styles/defaultheme";
 import styled from "styled-components";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowCircleLeft } from "phosphor-react";
+import { DefaulTheme } from "../styles/defaultheme";
+
 const HeaderStyled = styled.header`
   margin: 0;
   width: 100%;
@@ -18,11 +17,13 @@ const HeaderStyled = styled.header`
 const Title = styled.h1`
   color: ${(props) => props.theme.colors.white};
 `;
+
 interface PropsContainer {
   showPopup: boolean;
   children: React.ReactNode;
 }
-const PopupContainer: React.FC<PropsContainer> = styled.span`
+
+const PopupContainer: React.FC<PropsContainer> = styled.span<PropsContainer>`
   top: 30%;
   left: 41%;
   justify-content: center;
@@ -36,11 +37,13 @@ const PopupContainer: React.FC<PropsContainer> = styled.span`
   background: ${(props) => props.theme.colors.fifith};
   z-index: 1000;
 `;
-interface PorpsPopupFixed {
+
+interface PropsPopupFixed {
   showPopupFixed: boolean;
   children: React.ReactNode;
 }
-const PopupContainerFixed: React.FC<PorpsPopupFixed> = styled.span`
+
+const PopupContainerFixed: React.FC<PropsPopupFixed> = styled.span<PropsPopupFixed>`
   top: 28%;
   left: 41%;
   justify-content: center;
@@ -54,11 +57,13 @@ const PopupContainerFixed: React.FC<PorpsPopupFixed> = styled.span`
   background: ${(props) => props.theme.colors.fifith};
   z-index: 1000;
 `;
-interface PropsPopupinstallment {
+
+interface PropsPopupInstallment {
   showPopupInstallment: boolean;
   children: React.ReactNode;
 }
-const PopupContainerInstallment: React.FC<PropsPopupinstallment> = styled.span`
+
+const PopupContainerInstallment: React.FC<PropsPopupInstallment> = styled.span<PropsPopupInstallment>`
   top: 15%;
   left: 41%;
   justify-content: center;
@@ -72,21 +77,26 @@ const PopupContainerInstallment: React.FC<PropsPopupinstallment> = styled.span`
   background: ${(props) => props.theme.colors.fifith};
   z-index: 1000;
 `;
+
 interface H1Props {
   children: string;
 }
+
 const H1: React.FC<H1Props> = styled.h1`
   font-size: 1.5rem;
   margin-top: 1rem;
+  margin-bottom: 0.4rem;
   align-items: center;
   justify-content: center;
   display: flex;
   color: ${(props) => props.theme.colors.white};
 `;
+
 const Input = styled.input`
   border-radius: 4px;
   margin-left: 2.4rem;
-  margin-top: 1.4rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   border: 0;
   height: 1.3rem;
   display: flex;
@@ -103,13 +113,16 @@ const Input = styled.input`
 
 const P = styled.p`
   color: ${(props) => props.theme.colors.white};
+  margin-top: 1rem;
 `;
+
 const Div = styled.div`
   flex-direction: row;
   margin-left: 1rem;
   gap: 2rem;
   margin-top: 1rem;
 `;
+
 const ButtonAddExpense = styled.button`
   background-color: ${(props) => props.theme.colors.secondary};
   height: 2.3rem;
@@ -126,6 +139,7 @@ const ButtonAddExpense = styled.button`
     background-color: ${(props) => props.theme.colors.secondarydark};
   }
 `;
+
 const ArrowCircleLeftStyled = styled(ArrowCircleLeft)`
   color: ${(props) => props.theme.colors.white};
   font-size: 2.5rem;
@@ -143,33 +157,34 @@ const DivRow = styled.div`
   gap: 2rem;
   margin-top: 1rem;
 `;
+
 interface H1MonthProps {
   children: React.ReactNode;
   onClick: () => void;
   isSelected: boolean;
 }
-const H1Month: React.FC<H1MonthProps> = styled.h1`
-  font-size: 1.34rem;
 
+const H1Month: React.FC<H1MonthProps> = styled.h1<H1MonthProps>`
+  font-size: 1.34rem;
   color: ${(props) =>
     props.isSelected ? props.theme.colors.secondary : props.theme.colors.white};
-
   &:hover {
     color: ${(props) => props.theme.colors.secondary};
   }
 `;
+
 const DivMonth = styled.div`
   display: flex;
   gap: 2rem;
   justify-content: center;
   margin-bottom: 1rem;
 `;
+
 const InputYear = styled.input`
   flex-direction: end;
   display: flex;
   border-radius: 4px;
   margin-left: 2.4rem;
-
   border: 0;
   align-items: center;
   height: 1.3rem;
@@ -181,6 +196,7 @@ const InputYear = styled.input`
     outline: none;
   }
 `;
+
 export function Header({
   onAddExpense,
   onFilterMonth,
@@ -190,6 +206,7 @@ export function Header({
   setInstallmentExpenses,
   installmentExpenses,
   handleYearChange,
+  handleSelectedYear,
 }) {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [showPopupFixed, setShowPopupFixed] = useState<boolean>(false);
@@ -197,33 +214,36 @@ export function Header({
     useState<boolean>(false);
   const [expense, setExpense] = useState("");
   const [categories, setCategory] = useState("");
-  const [data, setDate] = useState("");
+  const [date, setDate] = useState("");
   const [expenseFixed, setExpenseFixed] = useState("");
   const [categoriesFixed, setCategoriesFixed] = useState("");
-  const [dataFixed, setDateFixed] = useState("");
+  const [dateFixed, setDateFixed] = useState("");
   const [installmentExpense, setInstallmentExpense] = useState<string>("");
   const [installmentCategories, setInstallmentCategories] = useState("");
-  const [installmentData, setInstallmentData] = useState("");
-  const [installmentNum, setInstallmentNum] = useState("");
+  const [installmentDate, setInstallmentDate] = useState("");
+  const [installmentNum, setInstallmentNum] = useState<number>(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [isFormValidFixed, setIsFormValidFixed] = useState(false);
   const [isFormValidInstallment, setisFormValidInstallment] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
     console.log("click");
   };
+
   const togglePopupFixed = () => {
     setShowPopupFixed(!showPopupFixed);
     console.log("click");
   };
+
   const togglePopupInstallment = () => {
     setShowPopupInstallment(!showPopupInstallment);
     console.log("click");
   };
-  const handleFilterMonth = (month) => {
+
+  const handleFilterMonth = (month: number) => {
     onFilterMonth(month); // Chama a função de filtro passando o mês como argumento
     setSelectedMonth(month);
     console.log("Selecionado mês:", month);
@@ -234,92 +254,95 @@ export function Header({
     setShowPopupFixed(false);
     setShowPopupInstallment(false);
   };
+
   const handleAddExpense = () => {
-    onAddExpense({ expense, categories, data });
+    onAddExpense({ expense, categories, date, type: "simple" });
     closePopup();
   };
+
   const handleAddExpenseFixed = () => {
-    onAddExpenseFixed({ expenseFixed, categoriesFixed, dataFixed });
+    onAddExpenseFixed({
+      expenseFixed,
+      categoriesFixed,
+      dateFixed,
+      type: "fixed",
+    });
     closePopup();
   };
 
-  const selectedDate = new Date(installmentData).getMonth();
-  const selectedDateYear = new Date(installmentData).getFullYear();
-  const handleAddInstallmentExpense = (newInstallmentExpense) => {
-    const { installmentCategories, installmentNum } = newInstallmentExpense;
-    const installmentExpenseNumber = parseFloat(installmentExpense);
 
-    const installmentAmount = (installmentExpenseNumber /
-      installmentNum) as number;
-    interface InstallmentData {
-      year: number;
-      month: number;
-      amount: number;
-    }
-    const installmentData: InstallmentData[] = [];
-    console.log(installmentData);
-    console.log(installmentNum);
+  const handleAddInstallmentExpense = () => {
+    const selectedDate = new Date(installmentDate).getMonth();
+    const selectedDateYear = new Date(installmentDate).getFullYear();
+    const installmentExpenseNumber = parseFloat(installmentExpense);
+    const installmentAmount = installmentExpenseNumber / installmentNum;
+
     for (let i = 0; i < installmentNum; i++) {
       const month = selectedDate + i;
-      const year = selectedDateYear;
-      if (month >= 12) {
-        installmentData.push({
-          year: year + 1,
-          month: month - 12,
-          amount: installmentAmount,
-        });
-      } else {
-        installmentData.push({
-          year: year,
-          month: month,
-          amount: installmentAmount,
-        });
-      }
+      const year = selectedDateYear + Math.floor(month / 12);
+  
 
-      console.log(installmentData);
-    }
-    closePopup();
+    const newInstallmentExpenses = {
+      installmentExpense,
+      installmentCategories,
+      installmentNum,
+      installmentData:{
+        year: year,
+        month: month % 12,
+        amount: installmentAmount,
+    },
+      type: 'installment',
+    };
 
-    setInstallmentExpenses([
-      ...installmentExpenses,
-      { installmentCategories, installmentNum, installmentData },
+    onAddInstallmentExpense(newInstallmentExpenses);
+    setInstallmentExpenses((prevExpenses) => [
+      ...prevExpenses,
+      newInstallmentExpenses,
     ]);
+    closePopup();
+  };}
+
+  useEffect(() => {
+    const isValid =
+      expense.trim() !== "" && categories.trim() !== "" && date.trim() !== "";
+    setIsFormValid(isValid);
+  }, [expense, categories, date]);
+
+  useEffect(() => {
+    const isValidFixed =
+      expenseFixed.trim() !== "" &&
+      categoriesFixed.trim() !== "" &&
+      dateFixed.trim() !== "";
+    setIsFormValidFixed(isValidFixed);
+  }, [expenseFixed, categoriesFixed, dateFixed]);
+
+  useEffect(() => {
+    const isValidInstallment =
+      installmentExpense.trim() !== "" &&
+      installmentCategories.trim() !== "" &&
+      installmentDate.trim() !== "" &&
+      installmentNum > 0;
+    setisFormValidInstallment(isValidInstallment);
+  }, [
+    installmentExpense,
+    installmentCategories,
+    installmentDate,
+    installmentNum,
+  ]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedYear(parseInt(e.target.value, 10));
+    handleYearChange(e.target.value); // Passa o valor do ano como argumento
   };
   const everyExpense = () => {
     onfilteredMonth(null);
     setSelectedMonth(null);
   };
-  const validateForm = () => {
-    setIsFormValid(
-      expense.trim() !== "" && categories.trim() !== "" && data.trim() !== ""
-    );
-  };
-  const validateFormFixed = () => {
-    setIsFormValidFixed(
-      expenseFixed.trim() !== "" &&
-        categoriesFixed.trim() !== "" &&
-        dataFixed.trim() !== ""
-    );
-  };
-  const validateFormInstallment = () => {
-    setisFormValidInstallment(
-      installmentExpense.trim() !== "" &&
-        installmentCategories.trim() !== "" &&
-        installmentData.trim() !== ""
-    );
-  };
-  useEffect(() => {
-    validateForm();
-  }, [expense, categories, data]);
-
-  useEffect(() => {
-    validateFormInstallment();
-  }, [installmentExpense, installmentCategories, installmentData]);
-
   return (
     <DefaulTheme>
       <HeaderStyled>
         <InputYear
+          value={handleSelectedYear}
           type="number"
           min="2024" // Defina o ano mínimo aceito
           max="2030" // Defina o ano máximo aceito
@@ -327,13 +350,16 @@ export function Header({
           onChange={handleYearChange}
         />
         <Title onClick={everyExpense}>Expenses List</Title>
-        <ButtonStyled onClick={togglePopup}>Add Expenses</ButtonStyled>
-        <ButtonStyled onClick={togglePopupFixed}> Fixed Expenses</ButtonStyled>
-        <ButtonStyled onClick={togglePopupInstallment}>
+        <ButtonAddExpense onClick={togglePopup}>Add Expenses</ButtonAddExpense>
+        <ButtonAddExpense onClick={togglePopupFixed}>
+          {" "}
+          Fixed Expenses
+        </ButtonAddExpense>
+        <ButtonAddExpense onClick={togglePopupInstallment}>
+          {" "}
           Installment Expense
-        </ButtonStyled>
+        </ButtonAddExpense>
       </HeaderStyled>
-
       <DivMonth>
         <H1Month
           onClick={() => handleFilterMonth(0)}
@@ -420,155 +446,105 @@ export function Header({
         </H1Month>
       </DivMonth>
       <PopupContainer showPopup={showPopup}>
-        <H1>New Expense</H1>
         <Div>
-          <P>Expense</P>
+          <H1>Adicionar Gasto</H1>
+          <P>Valor:</P>
           <Input
             type="number"
             value={expense}
-            onChange={(e) => {
-              setExpense(e.target.value);
-              validateForm();
-            }}
+            onChange={(e) => setExpense(e.target.value)}
           />
-        </Div>
-        <Div>
-          <P>Categorie</P>
+          <P>Categoria:</P>
           <Input
-            type="text"
             value={categories}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              validateForm();
-            }}
+            onChange={(e) => setCategory(e.target.value)}
           />
-        </Div>
-        <Div>
-          <P>Data</P>
+          <P>Data:</P>
           <Input
             type="date"
-            value={data}
-            onChange={(e) => {
-              setDate(e.target.value);
-              validateForm();
-            }}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
+          <DivRow>
+            <ButtonAddExpense
+              onClick={handleAddExpense}
+              disabled={!isFormValid}
+            >
+              Adicionar
+            </ButtonAddExpense>
+            <ArrowCircleLeftStyled onClick={closePopup} />
+          </DivRow>
         </Div>
-        <DivRow>
-          <ArrowCircleLeftStyled onClick={closePopup} />
-          <ButtonAddExpense onClick={handleAddExpense} disabled={!isFormValid}>
-            Add Expense
-          </ButtonAddExpense>
-        </DivRow>
       </PopupContainer>
+
       <PopupContainerFixed showPopupFixed={showPopupFixed}>
-        <H1>New Expense</H1>
         <Div>
-          <P>Expense</P>
+          <H1>Adicionar Gasto Fixo</H1>
+          <P>Valor:</P>
           <Input
             type="number"
             value={expenseFixed}
-            onChange={(e) => {
-              setExpenseFixed(e.target.value);
-              validateFormFixed();
-            }}
+            onChange={(e) => setExpenseFixed(e.target.value)}
           />
-        </Div>
-        <Div>
-          <P>Categorie</P>
+          <P>Categoria:</P>
           <Input
-            type="text"
             value={categoriesFixed}
-            onChange={(e) => {
-              setCategoriesFixed(e.target.value);
-              validateFormFixed();
-            }}
+            onChange={(e) => setCategoriesFixed(e.target.value)}
           />
-        </Div>
-        <Div>
-          <P>Data</P>
+          <P>Data:</P>
           <Input
             type="date"
-            value={dataFixed}
-            onChange={(e) => {
-              setDateFixed(e.target.value);
-              validateFormFixed();
-            }}
+            value={dateFixed}
+            onChange={(e) => setDateFixed(e.target.value)}
           />
+          <DivRow>
+            <ButtonAddExpense
+              onClick={handleAddExpenseFixed}
+              disabled={!isFormValidFixed}
+            >
+              Adicionar
+            </ButtonAddExpense>
+            <ArrowCircleLeftStyled onClick={closePopup} />
+          </DivRow>
         </Div>
-        <DivRow>
-          <ArrowCircleLeftStyled onClick={closePopup} />
-          <ButtonAddExpense
-            onClick={handleAddExpenseFixed}
-            disabled={!isFormValidFixed}
-          >
-            Add Expense
-          </ButtonAddExpense>
-        </DivRow>
       </PopupContainerFixed>
+
       <PopupContainerInstallment showPopupInstallment={showPopupInstallment}>
-        <H1>New Expense</H1>
         <Div>
-          <P>Expense</P>
+          <H1>Adicionar Gasto Parcelado</H1>
+          <P>Valor:</P>
           <Input
             type="number"
             value={installmentExpense}
-            onChange={(e) => {
-              setInstallmentExpense(e.target.value);
-              validateFormInstallment();
-            }}
+            onChange={(e) => setInstallmentExpense(e.target.value)}
           />
-        </Div>
-        <Div>
-          <P>Installments</P>
+          <P>Categoria:</P>
+          <Input
+            value={installmentCategories}
+            onChange={(e) => setInstallmentCategories(e.target.value)}
+          />
+          <P>Data:</P>
+          <Input
+            type="date"
+            value={installmentDate}
+            onChange={(e) => setInstallmentDate(e.target.value)}
+          />
+          <P>Número de Parcelas:</P>
           <Input
             type="number"
             value={installmentNum}
-            max={12}
-            onChange={(e) => {
-              setInstallmentNum(e.target.value);
-              validateFormInstallment();
-            }}
+            onChange={(e) => setInstallmentNum(parseInt(e.target.value, 10))}
           />
+          <DivRow>
+            <ButtonAddExpense
+              onClick={handleAddInstallmentExpense}
+              disabled={!isFormValidInstallment}
+            >
+              Adicionar
+            </ButtonAddExpense>
+            <ArrowCircleLeftStyled onClick={closePopup} />
+          </DivRow>
         </Div>
-        <Div>
-          <P>Categorie</P>
-          <Input
-            type="text"
-            value={installmentCategories}
-            onChange={(e) => {
-              setInstallmentCategories(e.target.value);
-              validateFormInstallment();
-            }}
-          />
-        </Div>
-        <Div>
-          <P>Dataa</P>
-          <Input
-            type="date"
-            value={installmentData}
-            onChange={(e) => {
-              setInstallmentData(e.target.value);
-              validateFormInstallment();
-            }}
-          />
-        </Div>
-        <DivRow>
-          <ArrowCircleLeftStyled onClick={closePopup} />
-          <ButtonAddExpense
-            onClick={() =>
-              handleAddInstallmentExpense({
-                installmentExpense,
-                installmentNum,
-                installmentCategories,
-                installmentData,
-              })
-            }
-            disabled={!isFormValidInstallment}
-          >
-            Add Expense
-          </ButtonAddExpense>
-        </DivRow>
       </PopupContainerInstallment>
     </DefaulTheme>
   );

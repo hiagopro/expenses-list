@@ -30,7 +30,11 @@ const H2Styled = styled.h2`
 `;
 
 export function Footer({ expenses, expenseCalculating, filteredExpenses }) {
-  const totalDespesas = expenseCalculating(filteredExpenses || []);
+
+
+
+  const totalDespesas = expenseCalculating(filteredExpenses );
+
   return (
     <FooterStyled>
       <H1Styled>Despesa Total</H1Styled>
