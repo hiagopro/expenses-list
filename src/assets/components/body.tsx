@@ -84,6 +84,7 @@ export function Body({
         </thead>
         <tbody>
           {expenses.map((expense, index) => (
+            
             <TrStyled key={index}>
               <ThExpense>{expense.expense}</ThExpense>
               <ThExpense>{expense.categories}</ThExpense>
@@ -141,9 +142,6 @@ export function Body({
         </thead>
         <tbody>
           { installmentExpenses.map((installmentExpense, index) =>{
-              
-              
-              
                 const selectedMonth = filteredMonth;
                 const installmentMonth = installmentExpense.installmentData.month;
                 const installmentYear = installmentExpense.installmentData.year;

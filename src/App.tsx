@@ -45,6 +45,7 @@ function App() {
 
   useEffect(() => {
     axios.get("http://localhost:5000/expenses").then((response) => {
+      console.log(response.data);
       const simpleExpenses = response.data.filter(
         (expense) => expense.type === "simple"
       );
@@ -59,8 +60,7 @@ function App() {
       setExpensesFixed(fixedExpenses);
       setInstallmentExpenses(installmentExpenses);
 
-      console.debug(response.data);
-      console.debug(expenses);
+      console.log(installmentExpenses)
     });
   }, []);
   const [filteredMonth, setFilteredMonth] = useState<number | null>(null);
@@ -84,6 +84,7 @@ function App() {
     location.reload();
   };
   const handleAddInsttalmentExpense = (newInstallmentExpenses) => {
+    
     axios.post("http://localhost:5000/expenses/", {
       installmentExpense: newInstallmentExpenses.installmentExpense,
       installmentNum: newInstallmentExpenses.installmentNum,
@@ -109,17 +110,14 @@ function App() {
 
     if (filteredMonth != null) {
       installmentExpenses.forEach((installmentExpense) => {
-       
-         
-          if (
-            filteredMonth === installmentExpense.installmentData.month &&
-            selectedYear === installmentExpense.installmentData.year
-          ) {
-            totalInstallment += installmentExpense.installmentData.amount;
-          }
-        });
-      };
-    
+        if (
+          filteredMonth === installmentExpense.installmentData.month &&
+          selectedYear === installmentExpense.installmentData.year
+        ) {
+          totalInstallment += installmentExpense.installmentData.amount;
+        }
+      });
+    }
 
     console.log(totalInstallment);
     return total + totalFixed + totalInstallment;
