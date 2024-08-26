@@ -59,16 +59,26 @@ export function Body({
     }
   };
 
-  const handleDeleteExpenseFixed = (index) => {
-    const updatedExpensesFixed = [...expensesFixed];
-    updatedExpensesFixed.splice(index, 1);
-    setExpensesFixed(updatedExpensesFixed);
+  const handleDeleteExpenseFixed = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      setExpensesFixed(
+        expensesFixed.filter((expense) => expense.id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+    }
   };
 
-  const handleDeleteInstallmentExpense = (index) => {
-    const updatedInstallmentExpenses = [...installmentExpenses];
-    updatedInstallmentExpenses.splice(index, 1);
-    setInstallmentExpenses(updatedInstallmentExpenses);
+  const handleDeleteInstallmentExpense = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      setInstallmentExpenses(
+        installmentExpenses.filter((expense) => expense.id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+    }
   };
 
   return (
@@ -84,7 +94,6 @@ export function Body({
         </thead>
         <tbody>
           {expenses.map((expense, index) => (
-            
             <TrStyled key={index}>
               <ThExpense>{expense.expense}</ThExpense>
               <ThExpense>{expense.categories}</ThExpense>
@@ -121,7 +130,7 @@ export function Body({
                 <ThExpense>
                   <XCircleStyled
                     size={28}
-                    onClick={() => handleDeleteExpenseFixed(index)}
+                    onClick={() => handleDeleteExpenseFixed(expenseFixed.id)}
                   />
                 </ThExpense>
               </TrStyled>
@@ -141,35 +150,38 @@ export function Body({
           </TrStyled>
         </thead>
         <tbody>
-          { installmentExpenses.map((installmentExpense, index) =>{
-                const selectedMonth = filteredMonth;
-                const installmentMonth = installmentExpense.installmentData.month;
-                const installmentYear = installmentExpense.installmentData.year;
-                const selectYear = selectedYear;
-            console.log(installmentExpense.installmentData.year)
-                if (
-                  installmentMonth === selectedMonth &&
-                  installmentYear === selectYear
-                ) {
-                  return (
-                    <TrStyled key={`${index}-${installmentExpense.id}`}>
-                      <ThExpense>{installmentExpense.installmentData.amount}</ThExpense>
-                      <ThExpense>
-                        {installmentExpense.installmentCategories}
-                      </ThExpense>
-                      <ThExpense>{installmentExpense.installmentNum}</ThExpense>
-                      <ThExpense>
-                        <XCircleStyled
-                          size={28}
-                          onClick={() => handleDeleteInstallmentExpense(index)}
-                        />
-                      </ThExpense>
-                    </TrStyled>
-                  );
-                } else {
-                  return null;
-                }
-              
+          {installmentExpenses.map((installmentExpense, index) => {
+            const selectedMonth = filteredMonth;
+            const installmentMonth = installmentExpense.installmentData.month;
+            const installmentYear = installmentExpense.installmentData.year;
+            const selectYear = selectedYear;
+
+            if (
+              installmentMonth === selectedMonth &&
+              installmentYear === selectYear
+            ) {
+              return (
+                <TrStyled key={`${index}-${installmentExpense.id}`}>
+                  <ThExpense>
+                    {installmentExpense.installmentData.amount}
+                  </ThExpense>
+                  <ThExpense>
+                    {installmentExpense.installmentCategories}
+                  </ThExpense>
+                  <ThExpense>{installmentExpense.installmentNum}</ThExpense>
+                  <ThExpense>
+                    <XCircleStyled
+                      size={28}
+                      onClick={() =>
+                        handleDeleteInstallmentExpense(installmentExpense.id)
+                      }
+                    />
+                  </ThExpense>
+                </TrStyled>
+              );
+            } else {
+              return null;
+            }
           })}
         </tbody>
       </TableStyled>

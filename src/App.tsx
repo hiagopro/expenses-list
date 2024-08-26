@@ -43,9 +43,9 @@ function App() {
     InstallmentExpense[]
   >([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/expenses").then((response) => {
-      console.log(response.data);
+  useEffect( () => {
+     axios.get("http://localhost:5000/expenses").then((response) => {
+      
       const simpleExpenses = response.data.filter(
         (expense) => expense.type === "simple",
    
@@ -59,16 +59,21 @@ function App() {
       );
 
       setExpenses(simpleExpenses);
-      setExpensesFixed(fixedExpenses);
+      
       setInstallmentExpenses(installmentExpenses);
+      
+      
+      console.log(fixedExpenses)
+      setExpensesFixed(fixedExpenses.length > 0 ? fixedExpenses : []);
+      console.log(expensesFixed)
 
-      console.log(installmentExpenses);
+      
     });
   }, []);
   const [filteredMonth, setFilteredMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
-  const handleAddExpense = (newExpense) => {
-    axios.post("http://localhost:5000/expenses/", {
+  const handleAddExpense = async (newExpense) => {
+   await axios.post("http://localhost:5000/expenses/", {
       expense: newExpense.expense,
       categories: newExpense.categories,
       date: newExpense.date,
@@ -84,50 +89,41 @@ function App() {
     });
     location.reload();
   };
-  const handleAddInsttalmentExpense = (newInstallmentExpenses) => {
+  const handleAddInsttalmentExpense = async (newInstallmentExpenses) => {
     const { installmentNum, installmentExpense, installmentCategories, installmentData, type } = newInstallmentExpenses;
+    console.log({installmentNum})
 
-    for (let i =0; i< installmentNum; i++){
-      const currentInstallmentData = {...installmentData};
-      let newMonth = currentInstallmentData.month + i;
-      let newYear = currentInstallmentData.year;
-      if (newMonth > 12) {
-        newYear += Math.floor((newMonth - 1) / 12);
-        newMonth = ((newMonth - 1) % 12) + 1;
-      }
-      currentInstallmentData.month = newMonth;
-      currentInstallmentData.year = newYear;
-      console.log(newMonth)
+    
+      
+     
+      console.log(installmentData.month + 'ola')
 
-      axios.post("http://localhost:5000/expenses/", {
+      await axios.post("http://localhost:5000/expenses/", {
         installmentExpense,
-        installmentData: currentInstallmentData,
+        installmentData: installmentData,
         installmentCategories,
         installmentNum,
         type,
-      })  .then(() => {
-        console.log(`Installment ${i + 1} sent successfully.`);
-      }) .catch((error) => {
-        console.error(`Error sending installment ${i + 1}:`, error);
-      });
+      })  
       
-
-    }
+      await new Promise(resolve => setTimeout(resolve, 1000));
+     
+      location.reload()
     
-    location.reload();
+    
   };
   const calcularTotalDespesas = (expenses) => {
     let total = 0;
     expenses.forEach((expense) => {
       total += parseFloat(expense.expense);
-      console.log(total);
+      
     });
     let totalFixed = 0;
     expensesFixed.forEach((expenseFixed) => {
       totalFixed += parseFloat(expenseFixed.expenseFixed);
-      console.log(totalFixed);
+      
     });
-    console.log(filteredMonth);
+    
     let totalInstallment = 0;
 
     if (filteredMonth != null) {
@@ -141,7 +137,7 @@ function App() {
       });
     }
 
-    console.log(totalInstallment);
+  
     return total + totalFixed + totalInstallment;
   };
   const handleFilteredMonth = () => {

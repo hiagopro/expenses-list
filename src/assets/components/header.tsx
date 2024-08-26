@@ -270,37 +270,42 @@ export function Header({
     closePopup();
   };
 
-
   const handleAddInstallmentExpense = () => {
     const selectedDate = new Date(installmentDate).getMonth();
     const selectedDateYear = new Date(installmentDate).getFullYear();
     const installmentExpenseNumber = parseFloat(installmentExpense);
     const installmentAmount = installmentExpenseNumber / installmentNum;
-
+    let month;
+    let year;
+    let someYear = 0;
     for (let i = 0; i < installmentNum; i++) {
-      const month = selectedDate + i;
-      const year = selectedDateYear + Math.floor(month / 12);
-  
+      month = selectedDate + i;
+      year = selectedDateYear;
+      
+     for(month;month > 11;){
+        month = month - 12;
+        year = year +1;
+      }
+      const newInstallmentExpenses = {
+        installmentExpense,
+        installmentCategories,
+        installmentNum,
+        installmentData: {
+          year: year,
+          month: month % 12,
+          amount: installmentAmount,
+        },
+        type: "installment",
+      };
 
-    const newInstallmentExpenses = {
-      installmentExpense,
-      installmentCategories,
-      installmentNum,
-      installmentData:{
-        year: year,
-        month: month % 12,
-        amount: installmentAmount,
-    },
-      type: 'installment',
-    };
-
-    onAddInstallmentExpense(newInstallmentExpenses);
-    setInstallmentExpenses((prevExpenses) => [
-      ...prevExpenses,
-      newInstallmentExpenses,
-    ]);
-    closePopup();
-  };}
+      onAddInstallmentExpense(newInstallmentExpenses);
+      setInstallmentExpenses((prevExpenses) => [
+        ...prevExpenses,
+        newInstallmentExpenses,
+      ]);
+      closePopup();
+    }
+  };
 
   useEffect(() => {
     const isValid =
@@ -345,7 +350,7 @@ export function Header({
           value={handleSelectedYear}
           type="number"
           min="2024" // Defina o ano mínimo aceito
-          max="2030" // Defina o ano máximo aceito
+          max="2060" // Defina o ano máximo aceito
           placeholder="Year"
           onChange={handleYearChange}
         />
