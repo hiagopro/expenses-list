@@ -43,37 +43,31 @@ function App() {
     InstallmentExpense[]
   >([]);
 
-  useEffect( () => {
-     axios.get("http://localhost:5000/expenses").then((response) => {
-      
+  useEffect(() => {
+    axios.get("http://localhost:5000/expenses").then((response) => {
       const simpleExpenses = response.data.filter(
-        (expense) => expense.type === "simple",
-   
+        (expense) => expense.type === "simple"
       );
       const fixedExpenses = response.data.filter(
         (expense) => expense.type === "fixed"
       );
       const installmentExpenses = response.data.filter(
         (expense) => expense.type === "installment"
-        
       );
 
       setExpenses(simpleExpenses);
-      
-      setInstallmentExpenses(installmentExpenses);
-      
-      
-      console.log(fixedExpenses)
-      setExpensesFixed(fixedExpenses.length > 0 ? fixedExpenses : []);
-      console.log(expensesFixed)
 
-      
+      setInstallmentExpenses(installmentExpenses);
+
+      console.log(fixedExpenses);
+      setExpensesFixed(fixedExpenses);
+      console.log(expensesFixed);
     });
   }, []);
   const [filteredMonth, setFilteredMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
   const handleAddExpense = async (newExpense) => {
-   await axios.post("http://localhost:5000/expenses/", {
+    await axios.post("http://localhost:5000/expenses/", {
       expense: newExpense.expense,
       categories: newExpense.categories,
       date: newExpense.date,
@@ -90,40 +84,39 @@ function App() {
     location.reload();
   };
   const handleAddInsttalmentExpense = async (newInstallmentExpenses) => {
-    const { installmentNum, installmentExpense, installmentCategories, installmentData, type } = newInstallmentExpenses;
-    console.log({installmentNum})
+    const {
+      installmentNum,
+      installmentExpense,
+      installmentCategories,
+      installmentData,
+      type,
+    } = newInstallmentExpenses;
+    console.log({ installmentNum });
 
-    
-      
-     
-      console.log(installmentData.month + 'ola')
+    console.log(installmentData.month + "ola");
 
-      await axios.post("http://localhost:5000/expenses/", {
-        installmentExpense,
-        installmentData: installmentData,
-        installmentCategories,
-        installmentNum,
-        type,
-      })  
-      
-      await new Promise(resolve => setTimeout(resolve, 1000));
-     
-      location.reload()
-    
-    
+    await axios.post("http://localhost:5000/expenses/", {
+      installmentExpense,
+      installmentData: installmentData,
+      installmentCategories,
+      installmentNum,
+      type,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    location.reload();
   };
   const calcularTotalDespesas = (expenses) => {
     let total = 0;
     expenses.forEach((expense) => {
       total += parseFloat(expense.expense);
-      
     });
     let totalFixed = 0;
     expensesFixed.forEach((expenseFixed) => {
       totalFixed += parseFloat(expenseFixed.expenseFixed);
-      
     });
-    
+
     let totalInstallment = 0;
 
     if (filteredMonth != null) {
@@ -137,7 +130,6 @@ function App() {
       });
     }
 
-  
     return total + totalFixed + totalInstallment;
   };
   const handleFilteredMonth = () => {
