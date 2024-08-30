@@ -1,7 +1,7 @@
 import { Divide, GithubLogo, GoogleLogo, TwitterLogo } from "phosphor-react";
 import styled from "styled-components";
 import React, { useState } from "react";
-
+import axios from "axios";
 const PageContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -121,51 +121,90 @@ const Signup = styled.p`
 `;
 
 export function LoginPage({ setSignin }) {
-  function addSignin() {
-    setSignin(true);
+  const [username, setUsername] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [signup, setSignup] = useState(false);
+
+  function signupOn() {
+    setSignup(true);
+    
   }
-  
-  
-  
+  async function signUp(event) {
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/signup", {
+        username,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
+      alert(err.response.data)
+    }
+  }
+  async function addSignin() {
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        username,
+        password,
+      });
+      console.log(response.status);
+
+      if (response.status === 201) {
+        setSignin(true);
+        sessionStorage.setItem("signin", "true");
+        console.log(response.data);
+        const userId = response.data.ID;
+        console.log(userId);
+        sessionStorage.setItem("userId", userId);
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
   return (
     <PageContainer>
       <FormContainer>
-        <Title>Login</Title>
-        <Form>
+        <Title>{signup ? "Sign up" : "Login"}</Title>
+        <Form onSubmit={signup ? signUp : addSignin}>
           <InputGroup>
             <InputGroupLabel>Username</InputGroupLabel>
-            <InputGroupInput type="text" name="username"></InputGroupInput>
+            <InputGroupInput
+              type="text"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+            ></InputGroupInput>
           </InputGroup>
           <InputGroup>
             <InputGroupLabel>Password</InputGroupLabel>
-            <InputGroupInput type="text" name="password"></InputGroupInput>
+            <InputGroupInput
+              type="text"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+            ></InputGroupInput>
             <Forgot>
               <ForgotAndSignupA></ForgotAndSignupA>
             </Forgot>
           </InputGroup>
-          <Signin onClick={addSignin}>Sign in</Signin>
+
+          <Signin type = "submit" >
+            {signup ? "Sign up" : "Sign in"}
+          </Signin>
         </Form>
         <SocialMessage>
           <Line></Line>
-          <SocialMessageMessage>
-            Login with social accounts
-          </SocialMessageMessage>
+
           <SocialIcons>
-            <SocialIconsIcons>
-              <GoogleLogo size={32} color="white" />
-            </SocialIconsIcons>
-            
-            <SocialIconsIcons aria-label="Log in with Twitter">
-              <TwitterLogo size={32} color="white" />
-            </SocialIconsIcons>
-            <SocialIconsIcons aria-label="Log in with GitHub">
-              <GithubLogo size={32} color="white" />
-            </SocialIconsIcons>
+            <SocialIconsIcons></SocialIconsIcons>
           </SocialIcons>
           <Line></Line>
         </SocialMessage>
         <Signup>
-          Don't have an account?<ForgotAndSignupA>Sign up</ForgotAndSignupA>
+          {signup ? "Enter yours datas" : "Dont have an account?"}{" "}
+          <ForgotAndSignupA onClick={signupOn}>
+            {" "}
+            {signup ? "" : "Sign up"}
+          </ForgotAndSignupA>
         </Signup>
       </FormContainer>
     </PageContainer>

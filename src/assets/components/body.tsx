@@ -62,9 +62,7 @@ export function Body({
   const handleDeleteExpenseFixed = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/expenses/${id}`);
-      setExpensesFixed(
-        expensesFixed.filter((expense) => expense.id !== id)
-      );
+      setExpensesFixed(expensesFixed.filter((expense) => expense.id !== id));
     } catch (error) {
       console.error("Error deleting expense:", error);
     }
@@ -124,9 +122,9 @@ export function Body({
           {Array.isArray(expensesFixed) &&
             expensesFixed.map((expenseFixed, index) => (
               <TrStyled key={index}>
-                <ThExpense>{expenseFixed.expenseFixed}</ThExpense>
-                <ThExpense>{expenseFixed.categoriesFixed}</ThExpense>
-                <ThExpense>{expenseFixed.dateFixed}</ThExpense>
+                <ThExpense>{expenseFixed.expense}</ThExpense>
+                <ThExpense>{expenseFixed.categories}</ThExpense>
+                <ThExpense>{expenseFixed.date}</ThExpense>
                 <ThExpense>
                   <XCircleStyled
                     size={28}

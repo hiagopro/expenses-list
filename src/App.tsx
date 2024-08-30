@@ -17,9 +17,9 @@ function App() {
     type: string;
   }
   interface FixedExpense {
-    expenseFixed: string;
-    categoriesFixed: string;
-    dateFixed: string;
+    expense: string;
+    categories: string;
+    date: string;
     type: string; // Adicionado para corresponder ao tipo de despesa
   }
 
@@ -44,7 +44,16 @@ function App() {
   >([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/expenses").then((response) => {
+    
+    const savedSignin = sessionStorage.getItem("signin");
+    const savedId = sessionStorage.getItem("userId");
+    console.log(savedId)
+    if (savedSignin === "true") {
+      setSignin(true);
+    }
+    if (savedId) {
+      console.log(savedId)
+    axios.get(`http://localhost:5000/expenses/${savedId}`).then((response) => {
       const simpleExpenses = response.data.filter(
         (expense) => expense.type === "simple"
       );
@@ -59,41 +68,45 @@ function App() {
 
       setInstallmentExpenses(installmentExpenses);
 
-      console.log(fixedExpenses);
       setExpensesFixed(fixedExpenses);
-      console.log(expensesFixed);
     });
+  }
   }, []);
+
   const [filteredMonth, setFilteredMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
   const handleAddExpense = async (newExpense) => {
+    const savedId = sessionStorage.getItem("userId");
     await axios.post("http://localhost:5000/expenses/", {
       expense: newExpense.expense,
       categories: newExpense.categories,
       date: newExpense.date,
       type: newExpense.type,
+      idclient: savedId,
     });
+    location.reload();
   };
   const handleAddExpenseFixed = (newExpenseFixed) => {
+    const savedId = sessionStorage.getItem("userId");
     axios.post("http://localhost:5000/expenses/", {
       expenseFixed: newExpenseFixed.expenseFixed,
       categoriesFixed: newExpenseFixed.categoriesFixed,
       dateFixed: newExpenseFixed.dateFixed,
       type: newExpenseFixed.type,
+      idclient:savedId,
     });
     location.reload();
   };
   const handleAddInsttalmentExpense = async (newInstallmentExpenses) => {
+    let savedId = sessionStorage.getItem("userId");
     const {
       installmentNum,
       installmentExpense,
       installmentCategories,
       installmentData,
       type,
+      
     } = newInstallmentExpenses;
-    console.log({ installmentNum });
-
-    console.log(installmentData.month + "ola");
 
     await axios.post("http://localhost:5000/expenses/", {
       installmentExpense,
@@ -101,6 +114,7 @@ function App() {
       installmentCategories,
       installmentNum,
       type,
+      idclient:savedId,
     });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -114,7 +128,7 @@ function App() {
     });
     let totalFixed = 0;
     expensesFixed.forEach((expenseFixed) => {
-      totalFixed += parseFloat(expenseFixed.expenseFixed);
+      totalFixed += parseFloat(expenseFixed.expense);
     });
 
     let totalInstallment = 0;
@@ -157,7 +171,8 @@ function App() {
     );
   };
 
-  const [signin, setSignin] = useState(true);
+  const [signin, setSignin] = useState(false);
+  console.log(signin);
   return (
     <div>
       <GlobalStyles />
