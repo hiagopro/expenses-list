@@ -161,7 +161,7 @@ export function Body({
               return (
                 <TrStyled key={`${index}-${installmentExpense.id}`}>
                   <ThExpense>
-                    {installmentExpense.installmentData.amount}
+                    {installmentExpense.installmentData.amount.toFixed(2)}
                   </ThExpense>
                   <ThExpense>
                     {installmentExpense.installmentCategories}

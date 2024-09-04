@@ -129,6 +129,9 @@ export function LoginPage({ setSignin }) {
     setSignup(true);
     
   }
+  function signupOff(){
+    setSignup(false)
+  }
   async function signUp(event) {
     event.preventDefault();
     try {
@@ -158,7 +161,12 @@ export function LoginPage({ setSignin }) {
         sessionStorage.setItem("userId", userId);
       }
     } catch (err) {
-      console.log({ err });
+      if( err.response.status === 500){
+        alert('Login not exist')
+      }else if(err.response.status === 404){
+        alert('Password is incorrect')
+      }
+      
     }
   }
 
@@ -200,10 +208,10 @@ export function LoginPage({ setSignin }) {
           <Line></Line>
         </SocialMessage>
         <Signup>
-          {signup ? "Enter yours datas" : "Dont have an account?"}{" "}
-          <ForgotAndSignupA onClick={signupOn}>
+          {signup ? "Do have an account?" : "Dont have an account?"}{" "}
+          <ForgotAndSignupA onClick={signup?  signupOff: signupOn }>
             {" "}
-            {signup ? "" : "Sign up"}
+            {signup ? "Login" : "Sign up"}
           </ForgotAndSignupA>
         </Signup>
       </FormContainer>

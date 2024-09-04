@@ -38,7 +38,7 @@ export function Footer({ expenses, expenseCalculating, filteredExpenses }) {
   return (
     <FooterStyled>
       <H1Styled>Despesa Total</H1Styled>
-      <H2Styled>R$ {totalDespesas}</H2Styled>
+      <H2Styled>R$ {totalDespesas.toFixed(2)}</H2Styled>
     </FooterStyled>
   );
 }
