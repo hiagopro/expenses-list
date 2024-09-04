@@ -139,6 +139,7 @@ export function LoginPage({ setSignin }) {
         username,
         password,
       });
+      alert('Aded with Sucess')
     } catch (err) {
       console.log(err);
       alert(err.response.data)
@@ -176,9 +177,9 @@ export function LoginPage({ setSignin }) {
         <Title>{signup ? "Sign up" : "Login"}</Title>
         <Form onSubmit={signup ? signUp : addSignin}>
           <InputGroup>
-            <InputGroupLabel>Username</InputGroupLabel>
+            <InputGroupLabel>Email</InputGroupLabel>
             <InputGroupInput
-              type="text"
+              type="email"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
             ></InputGroupInput>
@@ -186,7 +187,7 @@ export function LoginPage({ setSignin }) {
           <InputGroup>
             <InputGroupLabel>Password</InputGroupLabel>
             <InputGroupInput
-              type="text"
+              type="password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
             ></InputGroupInput>

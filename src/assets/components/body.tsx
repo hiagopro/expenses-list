@@ -166,7 +166,7 @@ export function Body({
                   <ThExpense>
                     {installmentExpense.installmentCategories}
                   </ThExpense>
-                  <ThExpense>{installmentExpense.installmentNum}</ThExpense>
+                  <ThExpense>{installmentExpense.numberInstallment + '/' + installmentExpense.installmentNum}</ThExpense>
                   <ThExpense>
                     <XCircleStyled
                       size={28}

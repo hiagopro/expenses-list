@@ -102,6 +102,7 @@ function App() {
     const {
       installmentNum,
       installmentExpense,
+      numberInstallment,
       installmentCategories,
       installmentData,
       type,
@@ -113,6 +114,7 @@ function App() {
       installmentData: installmentData,
       installmentCategories,
       installmentNum,
+      numberInstallment,
       type,
       idclient:savedId,
     });

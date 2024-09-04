@@ -278,10 +278,11 @@ export function Header({
     let month;
     let year;
     let someYear = 0;
+    let numberInstallment = 0
     for (let i = 0; i < installmentNum; i++) {
       month = selectedDate + i;
       year = selectedDateYear;
-      
+      numberInstallment += 1
      for(month;month > 11;){
         month = month - 12;
         year = year +1;
@@ -290,6 +291,7 @@ export function Header({
         installmentExpense,
         installmentCategories,
         installmentNum,
+        numberInstallment,
         installmentData: {
           year: year,
           month: month % 12,
