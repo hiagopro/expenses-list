@@ -51,31 +51,64 @@ export function Body({
   selectedYear,
 }) {
   const handleDeleteExpense = async (id) => {
+    const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+        headers: {
+          'Authorization': token 
+        }});
       setExpenses(expenses.filter((expense) => expense.id !== id));
-    } catch (error) {
-      console.error("Error deleting expense:", error);
+    } catch (err) {
+      if (err.response.status === 401) {
+        alert("Do login again");
+        sessionStorage.setItem("signin", "false");
+        location.reload()
+      }else{
+        console.log(err)
+      }
     }
   };
 
   const handleDeleteExpenseFixed = async (id) => {
+    const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+        headers: {
+          'Authorization': token 
+        }});
       setExpensesFixed(expensesFixed.filter((expense) => expense.id !== id));
-    } catch (error) {
-      console.error("Error deleting expense:", error);
+    } catch (err) {
+     
+          if (err.response.status === 401) {
+            alert("Do login again");
+            sessionStorage.setItem("signin", "false");
+            location.reload()
+          }else{
+            console.log(err)
+          }
+       
+      
     }
   };
 
   const handleDeleteInstallmentExpense = async (id) => {
+    const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`);
+      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+        headers: {
+          'Authorization': token 
+        }});
       setInstallmentExpenses(
         installmentExpenses.filter((expense) => expense.id !== id)
       );
-    } catch (error) {
-      console.error("Error deleting expense:", error);
+    } catch (err) {
+      if (err.response.status === 401) {
+        alert("Do login again");
+        sessionStorage.setItem("signin", "false");
+        location.reload()
+      }else{
+        console.log(err)
+      }
     }
   };
 

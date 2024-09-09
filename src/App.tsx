@@ -44,61 +44,99 @@ function App() {
   >([]);
 
   useEffect(() => {
-    
+    const token = sessionStorage.getItem("token");
     const savedSignin = sessionStorage.getItem("signin");
     const savedId = sessionStorage.getItem("userId");
-    console.log(savedId)
+    console.log(savedId);
     if (savedSignin === "true") {
       setSignin(true);
     }
     if (savedId) {
-      console.log(savedId)
-    axios.get(`http://localhost:5000/expenses/${savedId}`).then((response) => {
-      const simpleExpenses = response.data.filter(
-        (expense) => expense.type === "simple"
-      );
-      const fixedExpenses = response.data.filter(
-        (expense) => expense.type === "fixed"
-      );
-      const installmentExpenses = response.data.filter(
-        (expense) => expense.type === "installment"
-      );
+      console.log(savedId);
+      axios
+        .get(`http://localhost:5000/expenses/${savedId}`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          const simpleExpenses = response.data.filter(
+            (expense) => expense.type === "simple"
+          );
+          const fixedExpenses = response.data.filter(
+            (expense) => expense.type === "fixed"
+          );
+          const installmentExpenses = response.data.filter(
+            (expense) => expense.type === "installment"
+          );
 
-      setExpenses(simpleExpenses);
+          setExpenses(simpleExpenses);
 
-      setInstallmentExpenses(installmentExpenses);
+          setInstallmentExpenses(installmentExpenses);
 
-      setExpensesFixed(fixedExpenses);
-    });
-  }
+          setExpensesFixed(fixedExpenses);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert("Do login again");
+            sessionStorage.setItem("signin", "false");
+            setSignin(false);
+          }
+        });
+    }
   }, []);
 
   const [filteredMonth, setFilteredMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number>(2024);
   const handleAddExpense = async (newExpense) => {
     const savedId = sessionStorage.getItem("userId");
-    await axios.post("http://localhost:5000/expenses/", {
-      expense: newExpense.expense,
-      categories: newExpense.categories,
-      date: newExpense.date,
-      type: newExpense.type,
-      idclient: savedId,
-    });
+    const token = sessionStorage.getItem("token");
+    await axios.post(
+      "http://localhost:5000/expenses/",
+      {
+        expense: newExpense.expense,
+        categories: newExpense.categories,
+        date: newExpense.date,
+        type: newExpense.type,
+        idclient: savedId,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
     location.reload();
   };
   const handleAddExpenseFixed = (newExpenseFixed) => {
     const savedId = sessionStorage.getItem("userId");
-    axios.post("http://localhost:5000/expenses/", {
-      expenseFixed: newExpenseFixed.expenseFixed,
-      categoriesFixed: newExpenseFixed.categoriesFixed,
-      dateFixed: newExpenseFixed.dateFixed,
-      type: newExpenseFixed.type,
-      idclient:savedId,
+    const token = sessionStorage.getItem("token");
+    axios.post(
+      "http://localhost:5000/expenses/",
+      {
+        expenseFixed: newExpenseFixed.expenseFixed,
+        categoriesFixed: newExpenseFixed.categoriesFixed,
+        dateFixed: newExpenseFixed.dateFixed,
+        type: newExpenseFixed.type,
+        idclient: savedId,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ).catch((err) => {
+      if (err.response.status === 401) {
+        alert("Do login again");
+        sessionStorage.setItem("signin", "false");
+        setSignin(false);
+      }
     });
     location.reload();
   };
   const handleAddInsttalmentExpense = async (newInstallmentExpenses) => {
-    let savedId = sessionStorage.getItem("userId");
+    const savedId = sessionStorage.getItem("userId");
+    const token = sessionStorage.getItem("token");
     const {
       installmentNum,
       installmentExpense,
@@ -106,17 +144,30 @@ function App() {
       installmentCategories,
       installmentData,
       type,
-      
     } = newInstallmentExpenses;
 
-    await axios.post("http://localhost:5000/expenses/", {
-      installmentExpense,
-      installmentData: installmentData,
-      installmentCategories,
-      installmentNum,
-      numberInstallment,
-      type,
-      idclient:savedId,
+    await axios.post(
+      "http://localhost:5000/expenses/",
+      {
+        installmentExpense,
+        installmentData: installmentData,
+        installmentCategories,
+        installmentNum,
+        numberInstallment,
+        type,
+        idclient: savedId,
+      },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ).catch((err) => {
+      if (err.response.status === 401) {
+        alert("Do login again");
+        sessionStorage.setItem("signin", "false");
+        setSignin(false);
+      }
     });
 
     await new Promise((resolve) => setTimeout(resolve, 1000));

@@ -127,10 +127,9 @@ export function LoginPage({ setSignin }) {
 
   function signupOn() {
     setSignup(true);
-    
   }
-  function signupOff(){
-    setSignup(false)
+  function signupOff() {
+    setSignup(false);
   }
   async function signUp(event) {
     event.preventDefault();
@@ -139,35 +138,38 @@ export function LoginPage({ setSignin }) {
         username,
         password,
       });
-      alert('Aded with Sucess')
+      alert("Aded with Sucess");
     } catch (err) {
       console.log(err);
-      alert(err.response.data)
+      alert(err.response.data);
     }
   }
-  async function addSignin() {
+  async function addSignin(event) {
+    event.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/login", {
         username,
         password,
       });
-      console.log(response.status);
+      console.log(response.data);
 
       if (response.status === 201) {
         setSignin(true);
+        const token = response.data.token;
+        sessionStorage.setItem("token", token);
         sessionStorage.setItem("signin", "true");
-        console.log(response.data);
-        const userId = response.data.ID;
-        console.log(userId);
+
+        const userId = response.data.idLogin;
+        
         sessionStorage.setItem("userId", userId);
+        location.reload()
       }
     } catch (err) {
-      if( err.response.status === 500){
-        alert('Login not exist')
-      }else if(err.response.status === 404){
-        alert('Password is incorrect')
+      if (err.response.status === 500) {
+        alert("Login not exist");
+      } else if (err.response.status === 404) {
+        alert("Password is incorrect");
       }
-      
     }
   }
 
@@ -196,9 +198,7 @@ export function LoginPage({ setSignin }) {
             </Forgot>
           </InputGroup>
 
-          <Signin type = "submit" >
-            {signup ? "Sign up" : "Sign in"}
-          </Signin>
+          <Signin type="submit">{signup ? "Sign up" : "Sign in"}</Signin>
         </Form>
         <SocialMessage>
           <Line></Line>
@@ -210,7 +210,7 @@ export function LoginPage({ setSignin }) {
         </SocialMessage>
         <Signup>
           {signup ? "Do have an account?" : "Dont have an account?"}{" "}
-          <ForgotAndSignupA onClick={signup?  signupOff: signupOn }>
+          <ForgotAndSignupA onClick={signup ? signupOff : signupOn}>
             {" "}
             {signup ? "Login" : "Sign up"}
           </ForgotAndSignupA>
