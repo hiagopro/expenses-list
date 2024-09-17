@@ -37,5 +37,8 @@
   "main": "vite.config.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.21.3"
+  }
 }
