@@ -9,7 +9,7 @@ import React from "react";
 import { LoginPage } from "./assets/components/login";
 import axios from "axios";
 function App() {
-  const HOST_URL_API= process.env.HOST_URL_API
+  const HOST_URL_API= import.meta.env.VITE_HOST_URL_API
   interface PropsOfExpense {
     expense: string;
     categories: string;

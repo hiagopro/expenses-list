@@ -124,7 +124,7 @@ export function LoginPage({ setSignin }) {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [signup, setSignup] = useState(false);
-  const HOST_URL_API= process.env.HOST_URL_API
+  const HOST_URL_API=import.meta.env.VITE_HOST_URL_API
   function signupOn() {
     setSignup(true);
   }
