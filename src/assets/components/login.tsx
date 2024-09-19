@@ -119,12 +119,12 @@ const Signup = styled.p`
   line-height: 1rem;
   color: rgba(156, 163, 175, 1);
 `;
-
+ 
 export function LoginPage({ setSignin }) {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [signup, setSignup] = useState(false);
-
+  const HOST_URL_API= process.env.HOST_URL_API
   function signupOn() {
     setSignup(true);
   }
@@ -134,7 +134,7 @@ export function LoginPage({ setSignin }) {
   async function signUp(event) {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:5000/signup", {
+      await axios.post(`${HOST_URL_API}/signup`, {
         username,
         password,
       });
@@ -147,7 +147,7 @@ export function LoginPage({ setSignin }) {
   async function addSignin(event) {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post(`${HOST_URL_API}/login`, {
         username,
         password,
       });

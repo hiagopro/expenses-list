@@ -9,6 +9,7 @@ import React from "react";
 import { LoginPage } from "./assets/components/login";
 import axios from "axios";
 function App() {
+  const HOST_URL_API= process.env.HOST_URL_API
   interface PropsOfExpense {
     expense: string;
     categories: string;
@@ -54,7 +55,7 @@ function App() {
     if (savedId) {
       console.log(savedId);
       axios
-        .get(`http://localhost:5000/expenses/${savedId}`, {
+        .get(`${HOST_URL_API}/login${savedId}`, {
           headers: {
             Authorization: token,
           },
@@ -92,7 +93,7 @@ function App() {
     const savedId = sessionStorage.getItem("userId");
     const token = sessionStorage.getItem("token");
     await axios.post(
-      "http://localhost:5000/expenses/",
+      `${HOST_URL_API}/expenses`,
       {
         expense: newExpense.expense,
         categories: newExpense.categories,
@@ -112,7 +113,7 @@ function App() {
     const savedId = sessionStorage.getItem("userId");
     const token = sessionStorage.getItem("token");
     axios.post(
-      "http://localhost:5000/expenses/",
+      `${HOST_URL_API}/expenses`,
       {
         expenseFixed: newExpenseFixed.expenseFixed,
         categoriesFixed: newExpenseFixed.categoriesFixed,
@@ -147,7 +148,7 @@ function App() {
     } = newInstallmentExpenses;
 
     await axios.post(
-      "http://localhost:5000/expenses/",
+      `${HOST_URL_API}/expenses`,
       {
         installmentExpense,
         installmentData: installmentData,

@@ -50,10 +50,11 @@ export function Body({
   filteredMonth,
   selectedYear,
 }) {
+  const HOST_URL_API= process.env.HOST_URL_API
   const handleDeleteExpense = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
         headers: {
           'Authorization': token 
         }});
@@ -72,7 +73,7 @@ export function Body({
   const handleDeleteExpenseFixed = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
         headers: {
           'Authorization': token 
         }});
@@ -94,7 +95,7 @@ export function Body({
   const handleDeleteInstallmentExpense = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
         headers: {
           'Authorization': token 
         }});
