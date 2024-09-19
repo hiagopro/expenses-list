@@ -134,11 +134,11 @@ export function LoginPage({ setSignin }) {
   async function signUp(event) {
     event.preventDefault();
     try {
-      await axios.post(`${HOST_URL_API}/signup`, {
+      const response = await axios.post(`${HOST_URL_API}/signup`, {
         username,
         password,
       });
-      alert("Aded with Sucess");
+      alert(response.data);
     } catch (err) {
       console.log(err);
       alert(err.response.data);
