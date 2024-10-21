@@ -133,6 +133,7 @@ export function LoginPage({ setSignin }) {
   }
   async function signUp(event) {
     event.preventDefault();
+    console.log(HOST_URL_API)
     try {
       const response = await axios.post(`${HOST_URL_API}/signup`, {
         username,

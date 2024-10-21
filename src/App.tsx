@@ -55,7 +55,7 @@ function App() {
     if (savedId) {
       console.log(savedId);
       axios
-        .get(`${HOST_URL_API}/login${savedId}`, {
+        .get(`${HOST_URL_API}/login/${savedId}`, {
           headers: {
             Authorization: token,
           },
