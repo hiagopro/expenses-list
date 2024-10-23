@@ -72,6 +72,7 @@ export function Body({
 
   const handleDeleteExpenseFixed = async (id) => {
     const token = sessionStorage.getItem('token')
+    console.log(HOST_URL_API)
     try {
       await axios.delete(`${HOST_URL_API}/expenses/${id}`,{
         headers: {
