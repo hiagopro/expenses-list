@@ -54,7 +54,7 @@ export function Body({
   const handleDeleteExpense = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses/${id}`,{
         headers: {
           'Authorization': token 
         }});
@@ -73,7 +73,7 @@ export function Body({
   const handleDeleteExpenseFixed = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses/${id}`,{
         headers: {
           'Authorization': token 
         }});
@@ -95,7 +95,7 @@ export function Body({
   const handleDeleteInstallmentExpense = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
-      await axios.delete(`${HOST_URL_API}/expenses${id}`,{
+      await axios.delete(`${HOST_URL_API}/expenses/${id}`,{
         headers: {
           'Authorization': token 
         }});
