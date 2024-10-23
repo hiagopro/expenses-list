@@ -50,7 +50,7 @@ export function Body({
   filteredMonth,
   selectedYear,
 }) {
-  const HOST_URL_API= process.env.HOST_URL_API
+  const HOST_URL_API= process.env.VITE_HOST_URL_API
   const handleDeleteExpense = async (id) => {
     const token = sessionStorage.getItem('token')
     try {
