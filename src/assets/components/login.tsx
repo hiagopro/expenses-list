@@ -199,7 +199,7 @@ export function LoginPage({ setSignin }) {
             </Forgot>
           </InputGroup>
 
-          <Signin type="submit">{signup ? "Sign up" : "Sign in"}</Signin>
+          <Signin type="submit">{signup ? "Cadastrar" : "Acessar"}</Signin>
         </Form>
         <SocialMessage>
           <Line></Line>
