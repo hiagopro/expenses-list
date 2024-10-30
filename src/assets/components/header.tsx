@@ -357,14 +357,14 @@ export function Header({
           onChange={handleYearChange}
         />
         <Title onClick={everyExpense}>Expenses List</Title>
-        <ButtonAddExpense onClick={togglePopup}>Add Expenses</ButtonAddExpense>
+        <ButtonAddExpense onClick={togglePopup}>Adc Despesa</ButtonAddExpense>
         <ButtonAddExpense onClick={togglePopupFixed}>
           {" "}
-          Fixed Expenses
+          Despesa Fixa
         </ButtonAddExpense>
         <ButtonAddExpense onClick={togglePopupInstallment}>
           {" "}
-          Installment Expense
+          Despesa Parcelada
         </ButtonAddExpense>
       </HeaderStyled>
       <DivMonth>

@@ -119,10 +119,10 @@ export function Body({
       <TableStyled>
         <thead>
           <TrStyled>
-            <th>Expense</th>
-            <th>Categories</th>
-            <th>Date</th>
-            <th>Actions</th>
+            <th>Despesa</th>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Deletar</th>
           </TrStyled>
         </thead>
         <tbody>
@@ -142,15 +142,15 @@ export function Body({
         </tbody>
       </TableStyled>
       <DivTypeExpense>
-        <h1>Fixed Expenses</h1>
+        <h1>Despesas fixas</h1>
       </DivTypeExpense>
       <TableStyled>
         <thead>
           <TrStyled>
-            <th>Expense</th>
-            <th>Categories</th>
-            <th>Date</th>
-            <th>Actions</th>
+            <th>Despesa</th>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Deletar</th>
           </TrStyled>
         </thead>
         <tbody>
@@ -171,15 +171,15 @@ export function Body({
         </tbody>
       </TableStyled>
       <DivTypeExpense>
-        <h1>Installment Expenses</h1>
+        <h1>Despesas Parceladas</h1>
       </DivTypeExpense>
       <TableStyled>
         <thead>
           <TrStyled>
-            <th>Expense</th>
-            <th>Categories</th>
-            <th>Installments</th>
-            <th>Actions</th>
+            <th>Despesa</th>
+            <th>Categoria</th>
+            <th>Parcelas</th>
+            <th>Deletar</th>
           </TrStyled>
         </thead>
         <tbody>
