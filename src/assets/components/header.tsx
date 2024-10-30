@@ -356,7 +356,7 @@ export function Header({
           placeholder="Year"
           onChange={handleYearChange}
         />
-        <Title onClick={everyExpense}>Expenses List</Title>
+        <Title onClick={everyExpense}>Lista de Despesas</Title>
         <ButtonAddExpense onClick={togglePopup}>Adc Despesa</ButtonAddExpense>
         <ButtonAddExpense onClick={togglePopupFixed}>
           {" "}

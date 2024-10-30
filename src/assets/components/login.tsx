@@ -177,7 +177,7 @@ export function LoginPage({ setSignin }) {
   return (
     <PageContainer>
       <FormContainer>
-        <Title>{signup ? "Sign up" : "Login"}</Title>
+        <Title>{signup ? "Cadastre-se" : "Acesse"}</Title>
         <Form onSubmit={signup ? signUp : addSignin}>
           <InputGroup>
             <InputGroupLabel>Email</InputGroupLabel>
@@ -188,7 +188,7 @@ export function LoginPage({ setSignin }) {
             ></InputGroupInput>
           </InputGroup>
           <InputGroup>
-            <InputGroupLabel>Password</InputGroupLabel>
+            <InputGroupLabel>Senha</InputGroupLabel>
             <InputGroupInput
               type="password"
               name="password"
@@ -210,10 +210,10 @@ export function LoginPage({ setSignin }) {
           <Line></Line>
         </SocialMessage>
         <Signup>
-          {signup ? "Do have an account?" : "Dont have an account?"}{" "}
+          {signup ? "Ja tem uma conta?" : "Nao tem uma conta?"}{" "}
           <ForgotAndSignupA onClick={signup ? signupOff : signupOn}>
             {" "}
-            {signup ? "Login" : "Sign up"}
+            {signup ? "Acesse" : "Cadastre-se"}
           </ForgotAndSignupA>
         </Signup>
       </FormContainer>
