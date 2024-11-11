@@ -1,7 +1,7 @@
 Este projeto tem a finalidade de ajudar aquelas pessoas que gerenciam suas despesas com excel.
  
  ![Texto Alternativo](./src/assets/public/Captura%20de%20tela%202024-11-11%20092924.png)
- Com a possbilidade de realizar o cadastro se nao possuir uma conta, realizar login, e ao acessar gerenciar suas despesas. 
+ Com a possbilidade de realizar o cadastro se não possuir uma conta, realizar login, e ao acessar gerenciar suas despesas. 
 
  Na epoca que comecei a estudar react styled components, resolvi fazer esse projeto para por em pratica meu conhecimento em algo real. Logo utilizei essa Tecnologia primariamente para o front-end.
 
