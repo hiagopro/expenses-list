@@ -11,6 +11,6 @@ Este projeto tem a finalidade de ajudar aquelas pessoas que gerenciam suas despe
 
  Aproveitei essa nescessidade e comecei a estudar sobre banco de dados com mysql.
 
- Quando estava tud pronto apenas faltava armazenar tudo isso em algum aplicativo de deployment, ao qual utilizei e estudei sobre heroku para armazenar o back-end e o front-end e para o banco de dados a amazon AWS.
+ Quando estava tudo pronto apenas faltava armazenar tudo isso em algum aplicativo de deployment, ao qual utilizei e estudei sobre heroku para armazenar o back-end e o front-end e para o banco de dados a amazon AWS.
 
 
