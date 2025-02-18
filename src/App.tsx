@@ -109,10 +109,10 @@ function App() {
     );
     location.reload();
   };
-  const handleAddExpenseFixed = (newExpenseFixed) => {
+  const handleAddExpenseFixed = async (newExpenseFixed) => {
     const savedId = sessionStorage.getItem("userId");
     const token = sessionStorage.getItem("token");
-    axios.post(
+    await axios.post(
       `${HOST_URL_API}/expenses`,
       {
         expenseFixed: newExpenseFixed.expenseFixed,
